@@ -8,26 +8,6 @@ LISTA_ANOS = ['2014', '2015', '2016', '2017', '2018']
 def etl():
     return transformacao()
 
-def etl_nota():
-    df_gestao = etl()
-    df_gestao_nota = adiciona_nota(df_gestao)
-    return df_gestao_nota
-
-def adiciona_nota(df_gestao):
-    df_idesp = etlidesp()
-    mergeidesp = pd.merge(df_idesp, df_gestao, on='id_gestao')
-    nota_gestor = {}
-    nota_gestor['id_gestor'] = []
-    nota_gestor['nota_var'] = []
-    nota_gestor['n_atuacoes'] = []
-    for nome, dados in mergeidesp.groupby('id_gestor'):
-        nota_gestor['id_gestor'].append(nome)
-        nota_gestor['nota_var'].append(dados.variacao.mean())
-        nota_gestor['n_atuacoes'].append(len(dados))
-    nota_gestor = pd.DataFrame(data=nota_gestor)
-    mergeidesp = pd.merge(df_gestao, nota_gestor, on='id_gestor')
-    return mergeidesp
-    
 def foi_gestor(ano):
     return ano == 'SIM'
 
