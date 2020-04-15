@@ -1,3 +1,6 @@
 dados*
 *.pdf
 .ipynb*
+__pycache*
+*.csv
+
