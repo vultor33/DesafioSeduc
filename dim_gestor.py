@@ -34,9 +34,16 @@ def adiciona_nota(df_gestao):
     nota_gestor['nota_var'] = []
     nota_gestor['n_atuacoes'] = []
     for nome, dados in mergeidesp.groupby('id_gestor'):
+        nota_var = 0
+        n_atuacoes = 0
+        for id_gestao, id_dados in dados.groupby('id_gestao'):
+            nota_var += id_dados.variacao.iloc[0]
+            n_atuacoes += 1
+        nota_var /= n_atuacoes
+        
         nota_gestor['id_gestor'].append(nome)
-        nota_gestor['nota_var'].append(dados.variacao.mean())
-        nota_gestor['n_atuacoes'].append(len(dados))
+        nota_gestor['nota_var'].append(nota_var)
+        nota_gestor['n_atuacoes'].append(n_atuacoes)
     nota_gestor = pd.DataFrame(data=nota_gestor)
     mergeidesp = pd.merge(df_gestao, nota_gestor, on='id_gestor')
     return mergeidesp
