@@ -3,4 +3,5 @@ dados*
 .ipynb*
 __pycache*
 *.csv
+*.docx
 
