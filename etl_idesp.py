@@ -45,7 +45,10 @@ def limpeza(df_idesp):
     idesp['nota_anterior'] = []
     idesp['anterior_nulo'] = []
     idesp['atual_nulo'] = []
+    idesp['unidades_diretoria'] = []
+    idesp['nome_diretoria'] = []
 
+    dic_diretoria = collections.Counter(df_idesp.DIRETORIA)
     df_idesp = df_idesp.dropna(thresh=2)  # DESCARTE DE 1 LINHA VAZIA
     for _, row in df_idesp.iterrows():
         for ano, ano_anterior in zip(LISTA_ANOS, LISTA_ANO_ANTERIOR):
@@ -68,6 +71,8 @@ def limpeza(df_idesp):
             idesp['nota_anterior'].append(idesp_anterior)
             idesp['anterior_nulo'].append(anterior_nulo)
             idesp['atual_nulo'].append(atual_nulo)
+            idesp['unidades_diretoria'].append(dic_diretoria[row.DIRETORIA])
+            idesp['nome_diretoria'].append(row.DIRETORIA)
     return pd.DataFrame(data=idesp)
     
     
@@ -90,6 +95,8 @@ def agrupamento_id_gestao(df_idesp):
     idesp_group['variacao'] = []
     idesp_group['anterior_nulo'] = []
     idesp_group['atual_nulo'] = []
+    idesp_group['unidades_diretoria'] = []
+    idesp_group['nome_diretoria'] = []
 
     for nome, dados in df_idesp.groupby('id_gestao'):
         atual_nulo = atual_enulo(dados)
@@ -111,6 +118,8 @@ def agrupamento_id_gestao(df_idesp):
         idesp_group['variacao'].append(variacao)
         idesp_group['anterior_nulo'].append(int(dados.anterior_nulo.sum() > 0))
         idesp_group['atual_nulo'].append(atual_nulo)
+        idesp_group['unidades_diretoria'].append(dados.unidades_diretoria.iloc[0])
+        idesp_group['nome_diretoria'].append(dados.nome_diretoria.iloc[0])
     
     idesp_group = pd.DataFrame(data=idesp_group)
     return idesp_group
