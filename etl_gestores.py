@@ -4,6 +4,10 @@ from etl_idesp import etl as etlidesp
 
 LISTA_ANOS = ['2014', '2015', '2016', '2017', '2018']
 
+ARQUIVO_DIRETORES = 'dados\DIRETORES DE ESCOLA.csv'
+ARQUIVO_VICES = 'dados\VICE_DIRETOR.csv'
+ARQUIVO_COORDENADORES = 'dados\PROFESSOR_COORDENADOR.csv'
+
 
 def etl():
     return transformacao()
@@ -12,12 +16,9 @@ def foi_gestor(ano):
     return ano == 'SIM'
 
 def extracao():
-    arquivo = 'dados\lideres\lideres_DIRETORES DE ESCOLA.csv'
-    diretor = pd.read_csv(arquivo, sep=';')
-    arquivo = 'dados\lideres\lideres_VICE_DIRETOR.csv'
-    vice = pd.read_csv(arquivo, sep=';')
-    arquivo = 'dados\lideres\lideres_PROFESSOR_COORDENADOR.csv'
-    coord = pd.read_csv(arquivo, sep=';')
+    diretor = pd.read_csv(ARQUIVO_DIRETORES, sep=';')
+    vice = pd.read_csv(ARQUIVO_VICES, sep=';')
+    coord = pd.read_csv(ARQUIVO_COORDENADORES, sep=';')
     return [diretor, vice, coord]
     
 def limpeza(tabela_extraida, funcao_gestor, df_gestao):

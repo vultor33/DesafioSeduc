@@ -47,3 +47,5 @@ def adiciona_nota(df_gestao):
     nota_gestor = pd.DataFrame(data=nota_gestor)
     mergeidesp = pd.merge(df_gestao, nota_gestor, on='id_gestor')
     return mergeidesp
+    
+    
