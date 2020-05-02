@@ -20,16 +20,18 @@ def etl():
     return dados_saresp
 
 def extracao():
-    dados_saresp = []
-    for arquivo, ano in zip(NOMES_SARESP, ANOS_SARESP):
-        dados = pd.read_csv(arquivo, sep=';', encoding='latin-1')
-        dados['ano'] = ano
-        dados_saresp.append(dados)
-    saresp = dados_saresp[0]
-    for i in range(1,len(dados_saresp)):
-        saresp.append(dados_saresp[1])
-    return saresp.copy()
-    
+    dados2014 = pd.read_csv(NOMES_SARESP[0], sep=';', encoding='latin-1')
+    dados2014['ano'] = 2014
+    dados2015 = pd.read_csv(NOMES_SARESP[1], sep=';', encoding='latin-1')
+    dados2015['ano'] = 2015
+    dados2016 = pd.read_csv(NOMES_SARESP[2], sep=';', encoding='latin-1')
+    dados2016['ano'] = 2016
+    dados2017 = pd.read_csv(NOMES_SARESP[3], sep=';', encoding='latin-1')
+    dados2017['ano'] = 2017
+    dados2018 = pd.read_csv(NOMES_SARESP[4], sep=';', encoding='latin-1')
+    dados2018['ano'] = 2018
+    dados = dados2014.append(dados2015).append(dados2016).append(dados2017).append(dados2018)
+    return dados.reset_index(drop=True)
 
 def transformacao(dados_saresp):
     dados_saresp.loc[:,'medprof'] = dados_saresp.medprof.apply(para_numero)
